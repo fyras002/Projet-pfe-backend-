@@ -1,0 +1,6 @@
+@MedicalCabinetAPI_HostAddress = http://localhost:5083
+
+GET {{MedicalCabinetAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
