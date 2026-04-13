@@ -13,8 +13,6 @@ namespace MedicalCabinetAPI.Models
         public string? IllnessCardNumber { get; set; }
         public string? IllnessFinDate { get; set; }
         public string? IllnessCardCopie { get; set; }
-
-        // Navigation properties
         public MedicalFolder? MedicalFolder { get; set; }
         public List<Consultation> Consultations { get; set; } = new List<Consultation>();
         public List<Prescription> Prescriptions { get; set; } = new List<Prescription>();

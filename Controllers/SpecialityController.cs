@@ -16,14 +16,12 @@ namespace MedicalCabinetAPI.Controllers
             _context = context;
         }
 
-        // GET: api/speciality
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Speciality>>> GetAll()
         {
             return await _context.Specialities.ToListAsync();
         }
 
-        // GET: api/speciality/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Speciality>> GetById(int id)
         {
@@ -32,7 +30,6 @@ namespace MedicalCabinetAPI.Controllers
             return speciality;
         }
 
-        // POST: api/speciality
         [HttpPost]
         public async Task<ActionResult<Speciality>> Create(Speciality speciality)
         {
@@ -41,7 +38,6 @@ namespace MedicalCabinetAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = speciality.IdS }, speciality);
         }
 
-        // PUT: api/speciality/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Speciality speciality)
         {
@@ -51,7 +47,6 @@ namespace MedicalCabinetAPI.Controllers
             return NoContent();
         }
 
-        // DELETE: api/speciality/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

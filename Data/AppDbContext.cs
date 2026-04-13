@@ -25,7 +25,6 @@ namespace MedicalCabinetAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Explicit primary keys
             modelBuilder.Entity<Allergy>().HasKey(a => a.IdAllergy);
             modelBuilder.Entity<Consultation>().HasKey(c => c.IdCons);
             modelBuilder.Entity<Disease>().HasKey(d => d.IdDisease);
@@ -38,74 +37,62 @@ namespace MedicalCabinetAPI.Data
             modelBuilder.Entity<Symptom>().HasKey(s => s.IdSymptom);
             modelBuilder.Entity<User>().HasKey(u=>u.IdUser);
 
-            // TPH inheritance - all in one Users table
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<Doctor>().ToTable("Users");
             modelBuilder.Entity<Patient>().ToTable("Users");
             modelBuilder.Entity<MedicalAssistant>().ToTable("Users");
 
-            // Doctor → Consultations
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Consultations)
                 .WithOne()
                 .HasForeignKey(c => c.IdDoctorCons)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Doctor → Specialities (many-to-many)
             modelBuilder.Entity<Doctor>()
                 .HasMany(d => d.Specialities)
                 .WithMany();
 
-            // Patient → MedicalFolder (one-to-one)
             modelBuilder.Entity<Patient>()
                 .HasOne(p => p.MedicalFolder)
                 .WithOne()
                 .HasForeignKey<MedicalFolder>(mf => mf.IdPatient);
 
-            // Patient → Consultations
             modelBuilder.Entity<Patient>()
                 .HasMany(p => p.Consultations)
                 .WithOne()
                 .HasForeignKey(c => c.IdPatient)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Patient → Prescriptions
             modelBuilder.Entity<Patient>()
                 .HasMany(p => p.Prescriptions)
                 .WithOne()
                 .HasForeignKey(p => p.IdPatient);
 
-            // Patient → FamilyRelations
             modelBuilder.Entity<Patient>()
                 .HasMany(p => p.FamilyRelations)
                 .WithOne()
                 .HasForeignKey(f => f.IdPatient);
 
-            // Disease → DiseaseCategory
             modelBuilder.Entity<Disease>()
                 .HasOne<DiseaseCategory>()
                 .WithMany()
                 .HasForeignKey(d => d.IdDC);
 
-            // Symptom → Patient
             modelBuilder.Entity<Symptom>()
                 .HasOne<Patient>()
                 .WithMany()
                 .HasForeignKey(s => s.IdPatient);
 
-            // Allergy → Patient
             modelBuilder.Entity<Allergy>()
                 .HasOne<Patient>()
                 .WithMany()
                 .HasForeignKey(a => a.IdPatient);
 
-            // Prescription → Consultation
             modelBuilder.Entity<Prescription>()
                 .HasOne<Consultation>()
                 .WithMany()
                 .HasForeignKey(p => p.IdConsultation);
 
-            // Insurance → Patient
             modelBuilder.Entity<Insurance>()
                 .HasOne<Patient>()
                 .WithMany()
